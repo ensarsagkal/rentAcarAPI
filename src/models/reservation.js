@@ -18,3 +18,46 @@ const { mongoose } = require('../configs/dbConnection')
 }
 /* ------------------------------------------------------- */
 // Reservation Model:
+
+
+const ReservationSchema = new mongoose.Schema({
+
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
+
+    carId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Room',
+        required: true,
+    },
+
+    startDate: {
+        type: Date,
+        required: true,
+        default: Date.now // Bu satırda Date.now() olarak değiştirilebilir
+     },
+
+   endDate: {
+    type: Date,
+    required: true,
+    validate: {
+        validator: function(date) {
+            // departureDate'in arrivalDate'den sonra olduğunu kontrol et
+            return date > this.arrivalDate;
+        },
+        message: 'departureDate must be later than arrivalDate'
+    }
+   },
+
+
+}, {
+    collection: 'reservations',
+    timestamps: true,
+    toJSON: { getters: true },
+    toObject: { getters: true }
+});
+
+module.exports = mongoose.model('Reservation', ReservationSchema);
