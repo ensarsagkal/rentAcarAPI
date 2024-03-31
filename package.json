@@ -9,7 +9,7 @@
     "debug": "DEBUG=* nodemon"
   },
   "keywords": [],
-  "author": "Clarusway",
+  "author": "ensarsagkal",
   "license": "ISC Licence",
   "dependencies": {
     "dotenv": "^16.3.1",
