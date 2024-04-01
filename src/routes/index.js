@@ -15,11 +15,10 @@ router.use('/users', require('./user'))
 // token:
 router.use('/tokens', require('./token'))
 
-// reservation:
-router.use('/reservations', require('./reservation'))
 // car:
 router.use('/cars', require('./car'))
-
+// reservation:
+router.use('/reservations', require('./reservation'))
 
 // document:
 router.use('/documents', require('./document'))
