@@ -48,7 +48,7 @@ const UserSchema = new mongoose.Schema({
         validate: [
             // (email) => /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email),
             // 'Email type is not correct.'
-            (email) =>{ 
+            (email) => { 
                 const regexEmailCheck=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
                 return regexEmailCheck.test(email)                
             },
@@ -56,8 +56,10 @@ const UserSchema = new mongoose.Schema({
             
         ]
     },
-    firstName:String,
-    lastName:String,
+
+    firstName: String,
+
+    lastName: String,
 
     isActive: {
         type: Boolean,
