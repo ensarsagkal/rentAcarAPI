@@ -23,7 +23,13 @@ module.exports = {
             `
         */
 
-        const data = await res.getModelList(Reservation, {}, [
+        // Başka bir kullanıcı datasını görmesini engelle:
+        let customFilter = {}
+        if (!req.user.isAdmin && !req.user.isStaff) {
+            customFilter = { userId: req.user._id }
+        }
+
+        const data = await res.getModelList(Reservation, customFilter, [
             { path: 'userId', select: 'username firstName lastName' },
             { path: 'carId' },
             { path: 'createdId', select: 'username' },
@@ -32,7 +38,7 @@ module.exports = {
 
         res.status(200).send({
             error: false,
-            details: await res.getModelListDetails(Reservation),
+            details: await res.getModelListDetails(Reservation, customFilter),
             data
         })
     },
@@ -73,7 +79,13 @@ module.exports = {
             #swagger.summary = "Get Single Reservation"
         */
 
-        const data = await Reservation.findOne({ _id: req.params.id }).populate([
+        // Başka bir kullanıcı datasını görmesini engelle:
+        let customFilter = {}
+        if (!req.user.isAdmin && !req.user.isStaff) {
+            customFilter = { userId: req.user._id }
+        }
+
+        const data = await Reservation.findOne({ _id: req.params.id, ...customFilter }).populate([
             { path: 'userId', select: 'username firstName lastName' },
             { path: 'carId' },
             { path: 'createdId', select: 'username' },
