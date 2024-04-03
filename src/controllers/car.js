@@ -26,7 +26,10 @@ module.exports = {
         // Musait olmayan araçları listeleme:
         let customFilter = { isAvailable: true }
 
-        const data = await res.getModelList(Car, customFilter)
+        const data = await res.getModelList(Car, customFilter,[
+            {path:'createdId',select:'username'},
+            {path:'updatedId',select:'username'},
+        ])
 
         res.status(200).send({
             error: false,
