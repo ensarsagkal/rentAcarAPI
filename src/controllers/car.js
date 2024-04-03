@@ -23,11 +23,14 @@ module.exports = {
             `
         */
 
-        const data = await res.getModelList(Car)
+        // Musait olmayan araçları listeleme:
+        let customFilter = { isAvailable: true }
+
+        const data = await res.getModelList(Car, customFilter)
 
         res.status(200).send({
             error: false,
-            details: await res.getModelListDetails(Car),
+            details: await res.getModelListDetails(Car, customFilter),
             data
         })
     },
