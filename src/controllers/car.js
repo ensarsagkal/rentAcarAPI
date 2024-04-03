@@ -69,7 +69,10 @@ module.exports = {
             #swagger.summary = "Get Single Car"
         */
 
-        const data = await Car.findOne({ _id: req.params.id })
+        const data = await Car.findOne({ _id: req.params.id }).populate([
+            {path:'createdId',select:'username'},
+            {path:'updatedId',select:'username'},
+        ])
 
         res.status(200).send({
             error: false,
