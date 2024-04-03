@@ -23,7 +23,10 @@ module.exports = {
             `
         */
 
-        const data = await res.getModelList(Reservation)
+        const data = await res.getModelList(Reservation,{},[
+            {path:'createdId',select:'username'},
+            {path:'updatedId',select:'username'},
+        ])
 
         res.status(200).send({
             error: false,
