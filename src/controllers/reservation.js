@@ -56,7 +56,11 @@ module.exports = {
                 }
             }
         */
+<<<<<<< HEAD
       
+=======
+          
+>>>>>>> 90959f2ad3a9ca2c63430d30051df307209d0966
         // "Admin/staf değilse" veya "UserId göndermişmemişse" req.user'dan al:
         if ((!req.user.isAdmin && !req.user.isStaff) || !req.body?.userId) {
             req.body.userId = req.user._id
@@ -69,6 +73,7 @@ module.exports = {
 
 
 //* Eğer istek body'sinde amount belirtilmemişse, car modelinden fiyat bilgisi alınır.*//
+<<<<<<< HEAD
     // if (!req.body?.amount) {
     //     const carData = await Car.findOne({ _id: req.body.carId })
     //     const { startDate: getStartDate, endDate: getEndDate } = req.query
@@ -97,6 +102,16 @@ module.exports = {
         }
 
 
+=======
+    if (!req.body?.amount) {
+        const carData = await Car.findOne({ _id: req.body.carId })
+        const { startDate: getStartDate, endDate: getEndDate } = req.query
+        req.body.amount = carData.price //!Car fiyatını atar.
+    } //'buraya çok dikkat et
+
+
+
+>>>>>>> 90959f2ad3a9ca2c63430d30051df307209d0966
         // Kullanıcının çakışan tarihlerde başka bir reservesi var mı?
         const userReservationInDates = await Reservation.findOne({
             userId: req.body.userId,
