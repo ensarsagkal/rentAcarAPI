@@ -5,7 +5,6 @@
 // Reservation Controller:
 
 const Reservation = require('../models/reservation')
-const Car=require("../models/car")
 
 module.exports = {
 
@@ -56,11 +55,7 @@ module.exports = {
                 }
             }
         */
-<<<<<<< HEAD
-      
-=======
-          
->>>>>>> 90959f2ad3a9ca2c63430d30051df307209d0966
+
         // "Admin/staf değilse" veya "UserId göndermişmemişse" req.user'dan al:
         if ((!req.user.isAdmin && !req.user.isStaff) || !req.body?.userId) {
             req.body.userId = req.user._id
@@ -70,48 +65,6 @@ module.exports = {
         req.body.createdId = req.user._id
         req.body.updatedId = req.user._id
 
-
-
-//* Eğer istek body'sinde amount belirtilmemişse, car modelinden fiyat bilgisi alınır.*//
-<<<<<<< HEAD
-    // if (!req.body?.amount) {
-    //     const carData = await Car.findOne({ _id: req.body.carId })
-    //     const { startDate: getStartDate, endDate: getEndDate } = req.query
-    //     req.body.amount = carData.price //!Car fiyatını atar.
-    // } //'buraya çok dikkat et
-        if(!req.body?.amount){
-            const carData = await Car.findOne({ _id: req.body.carId })
-            // startDate ve endDate string olarak 'YYYY-MM-DD' formatında alındığında:
-        const startDate = new Date(req.query.startDate);
-        const endDate = new Date(req.query.endDate);
-
-        // Farkı milisaniye olarak hesaplayın
-        const differenceInTime = endDate.getTime() - startDate.getTime();
-
-        // Milisaniyeyi gün cinsine çevirin
-        const differenceInDays = differenceInTime / (1000 * 3600 * 24);
-
-        // Fiyatı gün sayısıyla çarpın
-        req.body.amount = differenceInDays * carData.price;
-
-
-
-
-
-
-        }
-
-
-=======
-    if (!req.body?.amount) {
-        const carData = await Car.findOne({ _id: req.body.carId })
-        const { startDate: getStartDate, endDate: getEndDate } = req.query
-        req.body.amount = carData.price //!Car fiyatını atar.
-    } //'buraya çok dikkat et
-
-
-
->>>>>>> 90959f2ad3a9ca2c63430d30051df307209d0966
         // Kullanıcının çakışan tarihlerde başka bir reservesi var mı?
         const userReservationInDates = await Reservation.findOne({
             userId: req.body.userId,

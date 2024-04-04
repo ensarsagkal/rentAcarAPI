@@ -10,7 +10,8 @@ const { mongoose } = require('../configs/dbConnection')
     "model": "Focus",
     "year": 2020,
     "isAutomatic": true,
-    "pricePerDay": 249.99
+    "pricePerDay": 249.99,
+    "isAvailable": true
 }
 {
     "plateNumber": "34ABC234",
@@ -18,7 +19,8 @@ const { mongoose } = require('../configs/dbConnection')
     "model": "Megane",
     "year": 2022,
     "isAutomatic": false,
-    "pricePerDay": 199.99
+    "pricePerDay": 199.99,
+    "isAvailable": true
 }
 {
     "plateNumber": "34ABC345",
@@ -78,7 +80,7 @@ const CarSchema = new mongoose.Schema({
 
     isAvailable: {
         type: Boolean,
-        defualt: true
+        default: true
     },
 
     createdId: {
