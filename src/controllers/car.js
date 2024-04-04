@@ -5,6 +5,7 @@
 // Car Controller:
 
 const Car = require('../models/car')
+const Reservation = require('../models/reservation')
 
 module.exports = {
 
@@ -26,9 +27,51 @@ module.exports = {
         // Musait olmayan araçları listeleme:
         let customFilter = { isAvailable: true }
 
-        const data = await res.getModelList(Car, customFilter,[
-            {path:'createdId',select:'username'},
-            {path:'updatedId',select:'username'},
+        /* TARIHE GÖRE LİSTELE */
+
+        // List by dateFilter:
+        // URL?startDate=2024-01-01&endDate=2024-01-10
+        const { startDate: getStartDate, endDate: getEndDate } = req.query
+
+        if (getStartDate && getEndDate) {
+
+            // Belirtilen tarihlerde reserve edilmiş araçları getir:
+            const reservedCars = await Reservation.find({
+                $nor: [
+                    { startDate: { $gt: getEndDate } }, // gt: >
+                    { endDate: { $lt: getStartDate } } // lt: <
+                ]
+            }, { _id: 0, carId: 1 }).distinct('carId')
+            // console.log(reservedCars)
+
+            // Gelen Data:
+            // [
+            //     { carId: new ObjectId("660d9d2932ba8b3174a05721") },
+            //     { carId: new ObjectId("660d9d2932ba8b3174a05721") }
+            // ]
+            // convert to Filtre Data (distinct);
+            // [
+            //    new ObjectId("660d9d2932ba8b3174a05721"),
+            //    new ObjectId("660d9d2932ba8b3174a05721")
+            // ]
+
+            // Filter objesine NotIN (nin) ekle:
+            if (reservedCars.length) {
+                customFilter._id = { $nin: reservedCars }
+            }
+            // console.log(customFilter)
+        
+        } else {
+            req.errorStatusCode = 401
+            throw new Error('startDate and endDate queries are required.')
+        }
+
+        /* TARIHE GÖRE LİSTELE */
+
+        // const data = await res.getModelList(Car, { _id: { $nin: ['carid12345667', 'carid12345667']} } )
+        const data = await res.getModelList(Car, customFilter, [
+            { path: 'createdId', select: 'username' },
+            { path: 'updatedId', select: 'username' },
         ])
 
         res.status(200).send({
@@ -70,8 +113,8 @@ module.exports = {
         */
 
         const data = await Car.findOne({ _id: req.params.id }).populate([
-            {path:'createdId',select:'username'},
-            {path:'updatedId',select:'username'},
+            { path: 'createdId', select: 'username' },
+            { path: 'updatedId', select: 'username' },
         ])
 
         res.status(200).send({
