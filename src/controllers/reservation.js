@@ -55,7 +55,7 @@ module.exports = {
                 }
             }
         */
-
+          
         // "Admin/staf değilse" veya "UserId göndermişmemişse" req.user'dan al:
         if ((!req.user.isAdmin && !req.user.isStaff) || !req.body?.userId) {
             req.body.userId = req.user._id
@@ -64,6 +64,17 @@ module.exports = {
         // createdId ve updatedId verisini req.user'dan al:
         req.body.createdId = req.user._id
         req.body.updatedId = req.user._id
+
+
+
+//* Eğer istek body'sinde amount belirtilmemişse, car modelinden fiyat bilgisi alınır.*//
+    if (!req.body?.amount) {
+        const carData = await Car.findOne({ _id: req.body.carId })
+        const { startDate: getStartDate, endDate: getEndDate } = req.query
+        req.body.amount = carData.price //!Car fiyatını atar.
+    } //'buraya çok dikkat et
+
+
 
         // Kullanıcının çakışan tarihlerde başka bir reservesi var mı?
         const userReservationInDates = await Reservation.findOne({
